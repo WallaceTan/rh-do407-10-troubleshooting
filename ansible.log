@@ -10,3 +10,97 @@ The offending line appears to be:
     random_var: This is colon: test
                              ^ here
 
+2018-01-26 10:20:08,753 p=3095 u=student |  ERROR! Syntax Error while loading YAML.
+
+
+The error appears to have been in '/home/student/troubleshooting/samba.yml': line 43, column 4, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+   - name: deliver samba config
+   ^ here
+
+2018-01-26 10:20:23,861 p=3109 u=student |  ERROR! Syntax Error while loading YAML.
+
+
+The error appears to have been in '/home/student/troubleshooting/samba.yml': line 43, column 4, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+
+   - name: deliver samba config
+   ^ here
+
+2018-01-26 10:21:44,520 p=3124 u=student |  ERROR! Syntax Error while loading YAML.
+
+
+The error appears to have been in '/home/student/troubleshooting/samba.yml': line 14, column 15, but may
+be elsewhere in the file depending on the exact syntax problem.
+
+The offending line appears to be:
+
+      name: samba
+      state: {{ install_state }}
+              ^ here
+We could be wrong, but this one looks like it might be an issue with
+missing quotes.  Always quote template expression brackets when they
+start a value. For instance:
+
+    with_items:
+      - {{ foo }}
+
+Should be written as:
+
+    with_items:
+      - "{{ foo }}"
+
+2018-01-26 10:22:30,408 p=3139 u=student |  playbook: samba.yml
+2018-01-26 10:22:35,995 p=3145 u=student |  PLAY [Install a samba server] *********************************************************
+2018-01-26 10:22:36,214 p=3145 u=student |  TASK [Gathering Facts] ****************************************************************
+2018-01-26 10:22:38,890 p=3145 u=student |  fatal: [servera.lab.exammple.com]: UNREACHABLE! => {"changed": false, "msg": "Failed to connect to the host via ssh: Warning: Permanently added 'servera.lab.exammple.com,81.177.135.182' (ECDSA) to the list of known hosts.\r\nPermission denied (publickey,password).\r\n", "unreachable": true}
+2018-01-26 10:22:38,891 p=3145 u=student |  	to retry, use: --limit @/home/student/troubleshooting/samba.retry
+
+2018-01-26 10:22:38,891 p=3145 u=student |  PLAY RECAP ****************************************************************************
+2018-01-26 10:22:38,891 p=3145 u=student |  servera.lab.exammple.com   : ok=0    changed=0    unreachable=1    failed=0   
+2018-01-26 10:23:12,967 p=3158 u=student |  Using /home/student/troubleshooting/ansible.cfg as config file
+2018-01-26 10:23:13,037 p=3158 u=student |  Loading callback plugin default of type stdout, v2.0 from /usr/lib/python2.7/site-packages/ansible/plugins/callback/__init__.pyc
+2018-01-26 10:23:13,081 p=3158 u=student |  PLAYBOOK: samba.yml *******************************************************************
+2018-01-26 10:23:13,081 p=3158 u=student |  1 plays in samba.yml
+2018-01-26 10:23:13,108 p=3158 u=student |  PLAY [Install a samba server] *********************************************************
+2018-01-26 10:23:13,152 p=3158 u=student |  TASK [Gathering Facts] ****************************************************************
+2018-01-26 10:23:13,393 p=3158 u=student |  Using module file /usr/lib/python2.7/site-packages/ansible/modules/system/setup.py
+2018-01-26 10:23:15,263 p=3158 u=student |  fatal: [servera.lab.exammple.com]: UNREACHABLE! => {
+    "changed": false, 
+    "msg": "Failed to connect to the host via ssh: OpenSSH_6.6.1, OpenSSL 1.0.1e-fips 11 Feb 2013\r\ndebug1: Reading configuration data /home/student/.ssh/config\r\ndebug1: /home/student/.ssh/config line 4: Applying options for *\r\ndebug1: Reading configuration data /etc/ssh/ssh_config\r\ndebug1: /etc/ssh/ssh_config line 56: Applying options for *\r\ndebug1: auto-mux: Trying existing master\r\ndebug1: Control socket \"/home/student/.ansible/cp/d4775f48c9\" does not exist\r\ndebug2: ssh_connect: needpriv 0\r\ndebug1: Connecting to servera.lab.exammple.com [81.177.135.182] port 22.\r\ndebug2: fd 3 setting O_NONBLOCK\r\ndebug1: fd 3 clearing O_NONBLOCK\r\ndebug1: Connection established.\r\ndebug3: timeout: 9777 ms remain after connect\r\ndebug3: Incorrect RSA1 identifier\r\ndebug3: Could not load \"/home/student/.ssh/lab_rsa\" as a RSA1 public key\r\ndebug1: identity file /home/student/.ssh/lab_rsa type 1\r\ndebug1: identity file /home/student/.ssh/lab_rsa-cert type -1\r\ndebug1: Enabling compatibility mode for protocol 2.0\r\ndebug1: Local version string SSH-2.0-OpenSSH_6.6.1\r\ndebug1: Remote protocol version 2.0, remote software version OpenSSH_7.4\r\ndebug1: match: OpenSSH_7.4 pat OpenSSH* compat 0x04000000\r\ndebug2: fd 3 setting O_NONBLOCK\r\ndebug3: load_hostkeys: loading entries for host \"servera.lab.exammple.com\" from file \"/home/student/.ssh/known_hosts\"\r\ndebug3: load_hostkeys: found key type ECDSA in file /home/student/.ssh/known_hosts:13\r\ndebug3: load_hostkeys: loaded 1 keys\r\ndebug3: order_hostkeyalgs: prefer hostkeyalgs: ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521\r\ndebug1: SSH2_MSG_KEXINIT sent\r\ndebug1: SSH2_MSG_KEXINIT received\r\ndebug2: kex_parse_kexinit: curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1\r\ndebug2: kex_parse_kexinit: ecdsa-sha2-nistp256-cert-v01@openssh.com,ecdsa-sha2-nistp384-cert-v01@openssh.com,ecdsa-sha2-nistp521-cert-v01@openssh.com,ecdsa-sha2-nistp256,ecdsa-sha2-nistp384,ecdsa-sha2-nistp521,ssh-ed25519-cert-v01@openssh.com,ssh-rsa-cert-v01@openssh.com,ssh-dss-cert-v01@openssh.com,ssh-rsa-cert-v00@openssh.com,ssh-dss-cert-v00@openssh.com,ssh-ed25519,ssh-rsa,ssh-dss\r\ndebug2: kex_parse_kexinit: aes128-ctr,aes192-ctr,aes256-ctr,arcfour256,arcfour128,aes128-gcm@openssh.com,aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,aes192-cbc,aes256-cbc,arcfour,rijndael-cbc@lysator.liu.se\r\ndebug2: kex_parse_kexinit: aes128-ctr,aes192-ctr,aes256-ctr,arcfour256,arcfour128,aes128-gcm@openssh.com,aes256-gcm@openssh.com,chacha20-poly1305@openssh.com,aes128-cbc,3des-cbc,blowfish-cbc,cast128-cbc,aes192-cbc,aes256-cbc,arcfour,rijndael-cbc@lysator.liu.se\r\ndebug2: kex_parse_kexinit: hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-ripemd160-etm@openssh.com,hmac-sha1-96-etm@openssh.com,hmac-md5-96-etm@openssh.com,hmac-md5,hmac-sha1,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1-96,hmac-md5-96\r\ndebug2: kex_parse_kexinit: hmac-md5-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-ripemd160-etm@openssh.com,hmac-sha1-96-etm@openssh.com,hmac-md5-96-etm@openssh.com,hmac-md5,hmac-sha1,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-ripemd160,hmac-ripemd160@openssh.com,hmac-sha1-96,hmac-md5-96\r\ndebug2: kex_parse_kexinit: zlib@openssh.com,zlib,none\r\ndebug2: kex_parse_kexinit: zlib@openssh.com,zlib,none\r\ndebug2: kex_parse_kexinit: \r\ndebug2: kex_parse_kexinit: \r\ndebug2: kex_parse_kexinit: first_kex_follows 0 \r\ndebug2: kex_parse_kexinit: reserved 0 \r\ndebug2: kex_parse_kexinit: curve25519-sha256,curve25519-sha256@libssh.org,ecdh-sha2-nistp256,ecdh-sha2-nistp384,ecdh-sha2-nistp521,diffie-hellman-group-exchange-sha256,diffie-hellman-group16-sha512,diffie-hellman-group18-sha512,diffie-hellman-group-exchange-sha1,diffie-hellman-group14-sha256,diffie-hellman-group14-sha1,diffie-hellman-group1-sha1\r\ndebug2: kex_parse_kexinit: ssh-rsa,rsa-sha2-512,rsa-sha2-256,ecdsa-sha2-nistp256,ssh-ed25519\r\ndebug2: kex_parse_kexinit: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com,aes128-cbc,aes192-cbc,aes256-cbc,blowfish-cbc,cast128-cbc,3des-cbc\r\ndebug2: kex_parse_kexinit: chacha20-poly1305@openssh.com,aes128-ctr,aes192-ctr,aes256-ctr,aes128-gcm@openssh.com,aes256-gcm@openssh.com,aes128-cbc,aes192-cbc,aes256-cbc,blowfish-cbc,cast128-cbc,3des-cbc\r\ndebug2: kex_parse_kexinit: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1\r\ndebug2: kex_parse_kexinit: umac-64-etm@openssh.com,umac-128-etm@openssh.com,hmac-sha2-256-etm@openssh.com,hmac-sha2-512-etm@openssh.com,hmac-sha1-etm@openssh.com,umac-64@openssh.com,umac-128@openssh.com,hmac-sha2-256,hmac-sha2-512,hmac-sha1\r\ndebug2: kex_parse_kexinit: none,zlib@openssh.com\r\ndebug2: kex_parse_kexinit: none,zlib@openssh.com\r\ndebug2: kex_parse_kexinit: \r\ndebug2: kex_parse_kexinit: \r\ndebug2: kex_parse_kexinit: first_kex_follows 0 \r\ndebug2: kex_parse_kexinit: reserved 0 \r\ndebug2: mac_setup: setup hmac-sha1-etm@openssh.com\r\ndebug1: kex: server->client aes128-ctr hmac-sha1-etm@openssh.com zlib@openssh.com\r\ndebug2: mac_setup: setup hmac-sha1-etm@openssh.com\r\ndebug1: kex: client->server aes128-ctr hmac-sha1-etm@openssh.com zlib@openssh.com\r\ndebug1: kex: curve25519-sha256@libssh.org need=20 dh_need=20\r\ndebug1: kex: curve25519-sha256@libssh.org need=20 dh_need=20\r\ndebug1: sending SSH2_MSG_KEX_ECDH_INIT\r\ndebug1: expecting SSH2_MSG_KEX_ECDH_REPLY\r\ndebug1: Server host key: ECDSA a8:64:29:55:b7:aa:b7:8d:7e:70:66:cb:fa:60:29:dc\r\ndebug3: load_hostkeys: loading entries for host \"servera.lab.exammple.com\" from file \"/home/student/.ssh/known_hosts\"\r\ndebug3: load_hostkeys: found key type ECDSA in file /home/student/.ssh/known_hosts:13\r\ndebug3: load_hostkeys: loaded 1 keys\r\ndebug3: load_hostkeys: loading entries for host \"81.177.135.182\" from file \"/home/student/.ssh/known_hosts\"\r\ndebug3: load_hostkeys: found key type ECDSA in file /home/student/.ssh/known_hosts:13\r\ndebug3: load_hostkeys: loaded 1 keys\r\ndebug1: Host 'servera.lab.exammple.com' is known and matches the ECDSA host key.\r\ndebug1: Found key in /home/student/.ssh/known_hosts:13\r\ndebug1: ssh_ecdsa_verify: signature correct\r\ndebug2: kex_derive_keys\r\ndebug2: set_newkeys: mode 1\r\ndebug1: SSH2_MSG_NEWKEYS sent\r\ndebug1: expecting SSH2_MSG_NEWKEYS\r\ndebug2: set_newkeys: mode 0\r\ndebug1: SSH2_MSG_NEWKEYS received\r\ndebug1: SSH2_MSG_SERVICE_REQUEST sent\r\ndebug2: service_accept: ssh-userauth\r\ndebug1: SSH2_MSG_SERVICE_ACCEPT received\r\ndebug2: key: /home/student/.ssh/lab_rsa (0x7f6e638930b0), explicit\r\ndebug1: Authentications that can continue: publickey,password\r\ndebug3: start over, passed a different list publickey,password\r\ndebug3: preferred gssapi-with-mic,gssapi-keyex,hostbased,publickey\r\ndebug3: authmethod_lookup publickey\r\ndebug3: remaining preferred: ,gssapi-keyex,hostbased,publickey\r\ndebug3: authmethod_is_enabled publickey\r\ndebug1: Next authentication method: publickey\r\ndebug1: Offering RSA public key: /home/student/.ssh/lab_rsa\r\ndebug3: send_pubkey_test\r\ndebug2: we sent a publickey packet, wait for reply\r\ndebug1: Authentications that can continue: publickey,password\r\ndebug2: we did not send a packet, disable method\r\ndebug1: No more authentication methods to try.\r\nPermission denied (publickey,password).\r\n", 
+    "unreachable": true
+}
+2018-01-26 10:23:15,265 p=3158 u=student |  	to retry, use: --limit @/home/student/troubleshooting/samba.retry
+
+2018-01-26 10:23:15,265 p=3158 u=student |  PLAY RECAP ****************************************************************************
+2018-01-26 10:23:15,265 p=3158 u=student |  servera.lab.exammple.com   : ok=0    changed=0    unreachable=1    failed=0   
+2018-01-26 10:25:05,842 p=3202 u=student |  PLAY [Install a samba server] *********************************************************
+2018-01-26 10:25:05,888 p=3202 u=student |  TASK [Gathering Facts] ****************************************************************
+2018-01-26 10:25:07,120 p=3202 u=student |  ok: [servera.lab.example.com]
+2018-01-26 10:25:07,124 p=3202 u=student |  TASK [install samba] ******************************************************************
+2018-01-26 10:25:18,410 p=3202 u=student |  changed: [servera.lab.example.com]
+2018-01-26 10:25:18,414 p=3202 u=student |  TASK [install firewalld] **************************************************************
+2018-01-26 10:25:18,886 p=3202 u=student |  ok: [servera.lab.example.com]
+2018-01-26 10:25:18,892 p=3202 u=student |  TASK [debug install_state variable] ***************************************************
+2018-01-26 10:25:18,912 p=3202 u=student |  ok: [servera.lab.example.com] => {
+    "msg": "The state for the samba service is installed"
+}
+2018-01-26 10:25:18,917 p=3202 u=student |  TASK [start samba] ********************************************************************
+2018-01-26 10:25:20,068 p=3202 u=student |  changed: [servera.lab.example.com]
+2018-01-26 10:25:20,072 p=3202 u=student |  TASK [start firewalld] ****************************************************************
+2018-01-26 10:25:20,373 p=3202 u=student |  ok: [servera.lab.example.com]
+2018-01-26 10:25:20,377 p=3202 u=student |  TASK [configure firewall for samba] ***************************************************
+2018-01-26 10:25:21,098 p=3202 u=student |  changed: [servera.lab.example.com]
+2018-01-26 10:25:21,102 p=3202 u=student |  TASK [deliver samba config] ***********************************************************
+2018-01-26 10:25:21,118 p=3202 u=student |  fatal: [servera.lab.example.com]: FAILED! => {"changed": false, "failed": true, "msg": "Unable to find 'samba.j2' in expected paths."}
+2018-01-26 10:25:21,119 p=3202 u=student |  	to retry, use: --limit @/home/student/troubleshooting/samba.retry
+
+2018-01-26 10:25:21,119 p=3202 u=student |  PLAY RECAP ****************************************************************************
+2018-01-26 10:25:21,120 p=3202 u=student |  servera.lab.example.com    : ok=7    changed=3    unreachable=0    failed=1   
